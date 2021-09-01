@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_8/CreateAccount.dart';
 import 'package:flutter_application_8/HomeScreen.dart';
 import 'package:flutter_application_8/Method.dart';
 
-class CreateAccount extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   @override
-  _CreateAccountState createState() => _CreateAccountState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _CreateAccountState extends State<CreateAccount> {
-  final TextEditingController _name = TextEditingController();
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   bool isLoading = false;
@@ -54,24 +54,16 @@ class _CreateAccountState extends State<CreateAccount> {
                   Container(
                     width: size.width / 1.1,
                     child: Text(
-                      "Create Account to Contiue!",
+                      "Sign In to Contiue!",
                       style: TextStyle(
                         color: Colors.grey[700],
-                        fontSize: 20,
+                        fontSize: 25,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: size.height / 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 18.0),
-                    child: Container(
-                      width: size.width,
-                      alignment: Alignment.center,
-                      child: field(size, "Name", Icons.account_box, _name),
-                    ),
+                    height: size.height / 10,
                   ),
                   Container(
                     width: size.width,
@@ -87,20 +79,21 @@ class _CreateAccountState extends State<CreateAccount> {
                     ),
                   ),
                   SizedBox(
-                    height: size.height / 20,
+                    height: size.height / 10,
                   ),
                   customButton(size),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
+                  SizedBox(
+                    height: size.height / 40,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => CreateAccount())),
+                    child: Text(
+                      "Create Account",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   )
@@ -113,21 +106,19 @@ class _CreateAccountState extends State<CreateAccount> {
   Widget customButton(Size size) {
     return GestureDetector(
       onTap: () {
-        if (_name.text.isNotEmpty &&
-            _email.text.isNotEmpty &&
-            _password.text.isNotEmpty) {
+        if (_email.text.isNotEmpty && _password.text.isNotEmpty) {
           setState(() {
             isLoading = true;
           });
 
-          createAccount(_name.text, _email.text, _password.text).then((user) {
+          logIn(_email.text, _password.text).then((user) {
             if (user != null) {
+              print("Login Sucessfull");
               setState(() {
                 isLoading = false;
               });
               Navigator.push(
                   context, MaterialPageRoute(builder: (_) => HomePage()));
-              print("Account Created Sucessfull");
             } else {
               print("Login Failed");
               setState(() {
@@ -136,7 +127,7 @@ class _CreateAccountState extends State<CreateAccount> {
             }
           });
         } else {
-          print("Please enter Fields");
+          print("Please fill form correctly");
         }
       },
       child: Container(
@@ -148,7 +139,7 @@ class _CreateAccountState extends State<CreateAccount> {
           ),
           alignment: Alignment.center,
           child: Text(
-            "Create Account",
+            "Login",
             style: TextStyle(
               color: Colors.white,
               fontSize: 18,

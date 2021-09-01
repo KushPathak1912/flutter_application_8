@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_8/HomeScreen.dart';
+import 'LoginScree.dart';
 
 class Authenticate extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -7,7 +9,7 @@ class Authenticate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (_auth.currentUser != null) {
-      return HomeScreen();
+      return HomePage();
     } else {
       return LoginScreen();
     }
